@@ -84,3 +84,10 @@ Thumbs.db
 *.tmp
 *.temp
 .cache/
+# SentinelGraph generated datasets and experiment splits
+sentinelgraph-review-data.zip
+data/interim*/
+data/features*/
+data/states*/
+data/sequences*/
+data/splits*/

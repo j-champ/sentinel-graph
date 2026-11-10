@@ -396,42 +396,56 @@ data/
 
 ---
 
-# 7. Experimental Dataset Split
+# 7. Experimental Dataset Splits
 
-The project uses a chronological split to reduce temporal leakage.
+SentinelGraph maintains separate dataset configurations for next-state
+classification and exploratory attack-onset forecasting.
 
-```text
+## Expanded Next-State Classification Split
+
 TRAIN
-├── Wednesday-14-02-2018
-└── Thursday-15-02-2018
+- Wednesday-14-02-2018
+- Thursday-15-02-2018
+- Friday-16-02-2018
+- Wednesday-21-02-2018
 
 VALIDATION
-└── Friday-16-02-2018
+- Friday-23-02-2018
+- Wednesday-28-02-2018
 
 TEST
-├── Wednesday-21-02-2018
-└── Thursday-22-02-2018
-```
+- Friday-02-03-2018
 
-Current sequence counts:
+| Split | Sequences |
+|---|---:|
+| Train | 2,419 |
+| Validation | 2,210 |
+| Test | 1,028 |
+| Total | 5,657 |
 
-```text
-Train:       2210
-Validation:   255
-Test:        1385
-```
+February 22 is not included in this expanded split.
 
-The total number of sequences is:
-
-```text
-3850
-```
+The March 2 test day has a substantially higher attack prevalence
+than the training and validation sets. This is a distribution-shift
+evaluation on one test day, not broad evidence of cross-day generalization.
 
 Preprocessing is fitted using training data only.
 
-Validation and test data are transformed using the training-fitted preprocessing pipeline.
+## Exploratory Attack-Onset Split
 
-The test set is reserved for held-out evaluation.
+Training uses February 14, 15, 16, 21, and 22. February 23 is used
+for exploratory evaluation.
+
+| Split | Eligible sequences | Onsets | Onset prevalence |
+|---|---:|---:|---:|
+| Train | 2,688 | 110 | 4.09% |
+| Test (Feb 23) | 900 | 86 | 9.56% |
+
+Only sequences whose last observed state is benign are included.
+February 23 was previously used for validation in an earlier experiment,
+so this is not an untouched independent test set.
+
+See `reports/onset_forecasting_experiment.md` for details.
 
 ---
 
